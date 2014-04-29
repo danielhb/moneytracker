@@ -32,10 +32,10 @@
 
     </LinearLayout>
 
-    <EditText
+    <MultiAutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText3"
+        android:id="@+id/autoCompleteTags"
         android:hint="@string/tags"
         android:layout_gravity="center_horizontal" />
 

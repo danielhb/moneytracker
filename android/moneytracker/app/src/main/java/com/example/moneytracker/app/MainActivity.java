@@ -1,14 +1,17 @@
 package com.example.moneytracker.app;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
@@ -19,7 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
 import com.example.moneytracker.app.model.Expense;
@@ -219,23 +224,18 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
 
     public void addExpense(View view)
     {
-        View v = this.addExpenseFragment.getView();
-        EditText valueET = (EditText)v.findViewById(R.id.editText2);
-        String value =  valueET.getText().toString();
+        runOnUiThread(new Runnable(){
+            public void run() {
+                // get new Expense obj from the tab
+                Expense e = addExpenseFragment.getNewExpense();
 
-        EditText dateET = (EditText)v.findViewById(R.id.editText);
-        Date date = null;
-        try {
-            date = Expense.dateFormat.parse(dateET.getText().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+                // dummy code to add the new expense 10x times in the
+                // expense list tab.
+                for (int i = 0; i < 10; i++)
+                    itemFragment.addExpenseToList(e);
 
-        for (int i = 0; i < 10; i++)
-        {
-            itemFragment.addExpenseToList(
-                    new Expense(date, value, null, null));
-        }
+            }
+        });
     }
 
 //    private void updateExpenseList() {
